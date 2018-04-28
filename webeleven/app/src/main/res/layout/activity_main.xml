@@ -12,12 +12,13 @@
         android:padding="10dp">
 
         <EditText
+            android:inputType="text"
             android:id="@+id/txtPesquisa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_bordas_arredondadas"
             android:hint="@string/search_hint"
-            android:inputType="text"
+            android:imeOptions="actionDone"
             android:textColor="#fff"
             android:textColorHint="#fff" />
 

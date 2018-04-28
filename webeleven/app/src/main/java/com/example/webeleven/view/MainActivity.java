@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActivityBase implements View.OnClickListener, TextWatcher {
     private EditText txtPesquisa = null;
-    private TextView lblDestaque = null;
     private RecyclerView rcvResultado = null;
     private RecyclerView rcvDestaques = null;
     private AdapterMusic adapterMusic = null;
@@ -44,7 +43,6 @@ public class MainActivity extends ActivityBase implements View.OnClickListener, 
     @Override
     public void iniciarControles() {
         txtPesquisa = (EditText) findViewById(R.id.txtPesquisa);
-        lblDestaque = (TextView) findViewById(R.id.lblDestaque);
         rcvResultado = (RecyclerView) findViewById(R.id.rcvResultado);
         rcvDestaques = (RecyclerView) findViewById(R.id.rcvDestaques);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -54,7 +52,7 @@ public class MainActivity extends ActivityBase implements View.OnClickListener, 
 
     @Override
     public void carregaDados() {
-        new TaskSearchAlbum(this, "iron maiden").execute();
+        new TaskSearchAlbum(this, "red hot chilli peppers").execute();
     }
 
     private void preencheListaDestaque()
@@ -99,17 +97,6 @@ public class MainActivity extends ActivityBase implements View.OnClickListener, 
         }catch (Exception e){
            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        try {
-            getMenuInflater().inflate(R.menu.menu_main_activity, menu);
-        }catch (Exception e){
-
-        }
-
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
