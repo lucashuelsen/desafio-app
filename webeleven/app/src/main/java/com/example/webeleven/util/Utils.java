@@ -1,44 +1,40 @@
 package com.example.webeleven.util;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
-
-import com.example.webeleven.model.Response;
-import com.example.webeleven.model.Results;
+import com.example.webeleven.controller.TaskSearchAlbum;
+import com.example.webeleven.controller.TaskSearchMusic;
+import com.example.webeleven.model.Album;
+import com.example.webeleven.model.Music;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class Utils
 {
-    public Response getJson(String url) throws Exception
+    public Object getMusic(Class classe, String url) throws Exception
     {
         JSONObject jsonResponse = null;
-        Response response = null;
-        Response responseRetorno = null;
+        ArrayList<Music> arrMusic = null;
+        ArrayList<Album> arrAlbum = null;
 
         jsonResponse = NetworkUtils.getJSONFromAPI(url);
 
         if(jsonResponse != null) {
-            response = new Gson().fromJson(jsonResponse.toString(), Response.class);
+            if (classe == TaskSearchMusic.class) {
+                arrMusic = new Gson().fromJson(jsonResponse.getJSONArray("results").toString(), new TypeToken<ArrayList<Music>>() {
+                }.getType());
+
+                return arrMusic;
+            } else if (classe == TaskSearchAlbum.class) {
+                arrAlbum = new Gson().fromJson(jsonResponse.getJSONArray("results").toString(), new TypeToken<ArrayList<Album>>() {
+                }.getType());
+
+                return arrAlbum;
+            }
         }
 
-        responseRetorno = new Response();
-
-        responseRetorno.setResultCount(response.getResultCount());
-        responseRetorno.setResults(new ArrayList<Results>());
-
-        for(Results results : response.getResults())
-        {
-            responseRetorno.getResults().add(results);
-        }
-
-        return responseRetorno;
+        return null;
     }
 }

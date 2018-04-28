@@ -12,6 +12,8 @@ public abstract class ActivityBase extends AppCompatActivity implements Share{
         super.onCreate(savedInstanceState);
 
         try {
+            obtemParametros();
+
             iniciarControles();
 
             carregaDados();
@@ -24,9 +26,10 @@ public abstract class ActivityBase extends AppCompatActivity implements Share{
 
     public abstract void carregaDados();
 
+    public void obtemParametros(){
+    };
+
     public void onReceiveData(Class classe, boolean result, Object... objects){
-
-
     }
 
     @Override

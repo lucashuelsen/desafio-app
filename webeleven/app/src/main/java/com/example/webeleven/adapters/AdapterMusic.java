@@ -11,21 +11,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.webeleven.R;
-import com.example.webeleven.model.Results;
+import com.example.webeleven.model.Music;
 import com.example.webeleven.util.Share;
-import com.example.webeleven.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AdapterResultado extends RecyclerView.Adapter implements View.OnClickListener {
+public class AdapterMusic extends RecyclerView.Adapter implements View.OnClickListener {
 
     private Context context = null;
-    private ArrayList<Results> arrResults = null;
+    private ArrayList<Music> arrResults = null;
 
-    public AdapterResultado(Context contextParam, ArrayList<Results> arrResultsParam) {
+    public AdapterMusic(Context contextParam, ArrayList<Music> arrMusicParam) {
         context = contextParam;
-        arrResults = arrResultsParam;
+        arrResults = arrMusicParam;
     }
 
     @NonNull
@@ -49,20 +48,20 @@ public class AdapterResultado extends RecyclerView.Adapter implements View.OnCli
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        Results results = null;
+        Music music = null;
 
         try
         {
             Holder holder = (Holder) viewHolder;
 
-            results = arrResults.get(position);
+            music = arrResults.get(position);
 
-            Picasso.get().load(results.getArtworkUrl100()).into(holder.imgAlbum);;
-            holder.lblMusica.setText(results.getTrackName());
-            holder.lblCompositor.setText(results.getArtistName());
+            Picasso.get().load(music.getArtworkUrl100()).into(holder.imgAlbum);;
+            holder.lblMusica.setText(music.getTrackName());
+            holder.lblCompositor.setText(music.getArtistName());
 
             holder.lnlLinha.setOnClickListener(this);
-            holder.lnlLinha.setTag(results);
+            holder.lnlLinha.setTag(music);
         }
         catch(Exception err)
         {

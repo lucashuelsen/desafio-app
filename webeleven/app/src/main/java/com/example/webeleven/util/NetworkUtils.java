@@ -1,5 +1,9 @@
 package com.example.webeleven.util;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,13 +16,11 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-/**
- * Created by Administrador on 12/07/2017.
- */
-
 public class NetworkUtils
 {
     public static final String URL = "https://itunes.apple.com/search?";
+    public static final String TERMS_CONFIGURATION = "&country=BR&limit=20";
+
     public  static JSONObject getJSONFromAPI(String params) throws Exception{
         JSONObject retorno = null;
         StringBuilder sbUrl = null;
@@ -28,6 +30,7 @@ public class NetworkUtils
             sbUrl = new StringBuilder();
             sbUrl.append(URL);
             sbUrl.append(params);
+            sbUrl.append(TERMS_CONFIGURATION);
 
             URL apiEndereco = new URL(sbUrl.toString());
             int codResposta;
@@ -91,5 +94,18 @@ public class NetworkUtils
         }
 
         return stringBuffer.toString();
+    }
+
+    public static boolean VerificaConexao(Context contexto){
+        boolean conectado;
+        ConnectivityManager conectivtyManager = (ConnectivityManager) contexto.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (conectivtyManager.getActiveNetworkInfo() != null
+                && conectivtyManager.getActiveNetworkInfo().isAvailable()
+                && conectivtyManager.getActiveNetworkInfo().isConnected()) {
+            conectado = true;
+        } else {
+            conectado = false;
+        }
+        return conectado;
     }
 }

@@ -5,18 +5,22 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.example.webeleven.model.Response;
+import com.example.webeleven.model.Album;
+import com.example.webeleven.util.NetworkUtils;
 import com.example.webeleven.util.Share;
 import com.example.webeleven.util.Utils;
 
-public class TaskSearch extends AsyncTask<Void, Void, Boolean>{
+import java.util.ArrayList;
+
+public class TaskSearchAlbum extends AsyncTask<Void, Void, Boolean>{
 
     private ProgressDialog progressDialog;
     private Context context = null;
-    private Response response = null;
+    private ArrayList<Album> arrAlbum = null;
     private String term = "";
+    private String erro = "";
 
-    public TaskSearch(Context contextParam, String termParam) {
+    public TaskSearchAlbum(Context contextParam, String termParam) {
         context = contextParam;
         term = termParam;
     }
@@ -26,7 +30,7 @@ public class TaskSearch extends AsyncTask<Void, Void, Boolean>{
         super.onPreExecute();
 
         try {
-           // progressDialog = ProgressDialog.show(context, "Aguarde", "aguarde");
+            progressDialog = ProgressDialog.show(context, "Aguarde", "aguarde");
         }catch (Exception e){
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -37,11 +41,17 @@ public class TaskSearch extends AsyncTask<Void, Void, Boolean>{
 
         Utils utils = new Utils();
         try {
-            response = utils.getJson("term="+term.replace(" ","+")+"&entity=musicTrack&limit=5");
+            if(NetworkUtils.VerificaConexao(context)){
+                arrAlbum = (ArrayList<Album>) utils.getMusic(getClass(), "entity=album&term=" + term.replace(" ", "+"));
+                return true;
+            }
+            else
+            {
 
-            return true;
+                return false;
+            }
         } catch (Exception e) {
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            erro = e.getMessage();
         }
 
         return false;
@@ -52,12 +62,17 @@ public class TaskSearch extends AsyncTask<Void, Void, Boolean>{
         super.onPostExecute(aBoolean);
 
         try{
-            ((Share)context).share(getClass(), aBoolean, response);
+            if(!aBoolean)
+            {
+                Toast.makeText(context, erro, Toast.LENGTH_SHORT).show();
+            }
+
+            ((Share)context).share(getClass(), aBoolean, arrAlbum);
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         finally {
-            //progressDialog.dismiss();
+            progressDialog.dismiss();
         }
     }
 }

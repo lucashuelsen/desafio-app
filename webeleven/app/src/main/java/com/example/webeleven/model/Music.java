@@ -2,12 +2,12 @@ package com.example.webeleven.model;
 
 import android.graphics.Bitmap;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
-public class Results implements Serializable
+public class Music implements Serializable
 {
-    private Bitmap imgAlbum = null;
-
     private String collectionExplicitness;
 
     private String trackCensoredName;
@@ -71,14 +71,6 @@ public class Results implements Serializable
     private String trackViewUrl;
 
     private String collectionPrice;
-
-    public Bitmap getImgAlbum() {
-        return imgAlbum;
-    }
-
-    public void setImgAlbum(Bitmap imgAlbum) {
-        this.imgAlbum = imgAlbum;
-    }
 
     public String getCollectionExplicitness ()
     {
